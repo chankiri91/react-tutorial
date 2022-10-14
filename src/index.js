@@ -5,12 +5,27 @@ import './index.css';
 // SquareクラスをReact.Componentクラスから作成する。
 // 1マスの描画
 class Square extends React.Component {
+	// stateをもたせる
+	// constructor(props) {
+	// 	super(props);
+	// 	this.state = {
+	// 		value: null,
+	// 	};
+	// }
+
+
 	// 状態によってUIを更新する, react要素を返す
 	render() {
 		// JSXを返す
 		return (
-			<button className='square'>
-				{this.props.value}
+			<button 
+				className='square' 
+				onClick={() => {
+					this.props.onClick();
+				}}
+			>
+				{/* {this.props.value} */}
+				{ this.props.value }
 			</button>
 		);
 	}
@@ -18,9 +33,29 @@ class Square extends React.Component {
 
 //ボードの描画
 class Board extends React.Component {
+
+	// どのマス目に何が入っているのかを管理
+	constructor(props) {
+		super(props);
+		this.state = {
+			squares: Array(9).fill(null),
+		};
+	}
+
+	handleClick(i) {
+		const squares = this.state.squares.slice();
+		squares[i] = 'X';
+		this.setState({squares: squares});
+	}
+
 	// Squareコンポーネントを返す
 	renderSquare(i) {
-		return <Square value={i}/>;
+		return (
+			<Square 
+				value={ this.state.squares[i] }
+				onClick = {() => this.handleClick(i)}
+			/>
+		);
 	}
 
 	render() {
