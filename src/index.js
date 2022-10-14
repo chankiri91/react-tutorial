@@ -3,27 +3,31 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 
 // SquareクラスをReact.Componentクラスから作成する。
+// 1マスの描画
 class Square extends React.Component {
-	// 状態によってUIを更新する
+	// 状態によってUIを更新する, react要素を返す
 	render() {
 		// JSXを返す
 		return (
 			<button className='square'>
-				{/* TODO */}
+				{this.props.value}
 			</button>
 		);
 	}
 }
 
+//ボードの描画
 class Board extends React.Component {
+	// Squareコンポーネントを返す
 	renderSquare(i) {
-		return <Square />;
+		return <Square value={i}/>;
 	}
 
 	render() {
 		const status = "Next player: X";
 
 		return (
+			// <div /> == React.createElement('div')
 			<div>
 				<div className='status'>{status}</div>
 				<div className='board-row'>
@@ -46,6 +50,7 @@ class Board extends React.Component {
 	}
 }
 
+// ボードと、プレースホルダーの描画
 class Game extends React.Component {
 	render() {
 		return (
