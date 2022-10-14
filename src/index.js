@@ -4,31 +4,42 @@ import './index.css';
 
 // SquareクラスをReact.Componentクラスから作成する。
 // 1マスの描画
-class Square extends React.Component {
-	// stateをもたせる
-	// constructor(props) {
-	// 	super(props);
-	// 	this.state = {
-	// 		value: null,
-	// 	};
-	// }
+// 制御されたコンポーネント
+// class Square extends React.Component {
+// 	// stateをもたせる
+// 	// constructor(props) {
+// 	// 	super(props);
+// 	// 	this.state = {
+// 	// 		value: null,
+// 	// 	};
+// 	// }
 
 
-	// 状態によってUIを更新する, react要素を返す
-	render() {
-		// JSXを返す
-		return (
-			<button 
-				className='square' 
-				onClick={() => {
-					this.props.onClick();
-				}}
-			>
-				{/* {this.props.value} */}
-				{ this.props.value }
-			</button>
-		);
-	}
+// 	// 状態によってUIを更新する, react要素を返す
+// 	render() {
+// 		// JSXを返す
+// 		return (
+// 			<button 
+// 				className='square' 
+// 				onClick={() => {
+// 					this.props.onClick();
+// 				}}
+// 			>
+// 				{/* {this.props.value} */}
+// 				{ this.props.value }
+// 			</button>
+// 		);
+// 	}
+// }
+
+// 関数コンポーネント
+// stateを持たないコンポーネントは楽にかける
+function Square(props) {
+	return (
+		<button className='square' onClick={props.onClick}>
+			{props.value}
+		</button>
+	)
 }
 
 //ボードの描画
@@ -39,13 +50,17 @@ class Board extends React.Component {
 		super(props);
 		this.state = {
 			squares: Array(9).fill(null),
+			xIsNext: true,
 		};
 	}
 
 	handleClick(i) {
 		const squares = this.state.squares.slice();
-		squares[i] = 'X';
-		this.setState({squares: squares});
+		squares[i] = this.state.xIsNext ? 'X' : 'O';
+		this.setState({
+			squares: squares,
+			xIsNext: !this.state.xIsNext
+		});
 	}
 
 	// Squareコンポーネントを返す
@@ -59,7 +74,7 @@ class Board extends React.Component {
 	}
 
 	render() {
-		const status = "Next player: X";
+		const status = "Next player: " + (this.state.xIsNext ? 'X' : 'O');
 
 		return (
 			// <div /> == React.createElement('div')
